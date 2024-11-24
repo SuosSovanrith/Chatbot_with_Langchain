@@ -1,0 +1,5 @@
+.env
+langchainchatbot.db
+app.log
+chroma_db
+__pycache__
