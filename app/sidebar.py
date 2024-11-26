@@ -8,7 +8,6 @@ def get_documents_cached():
 
 
 def display_sidebar():
-        
     # Model selection
     # model_options = ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"]
     model_options = ["gpt-3.5-turbo"] # limit to only this model because of free tier
@@ -22,24 +21,27 @@ def display_sidebar():
     )
         
     if uploaded_file and st.sidebar.button("Upload"):
-        try:
-            upload_response = upload_document(uploaded_file)
-      
-            if upload_response:
-                st.sidebar.success(f"File uploaded successfully with ID {upload_response['file_id']}.")
-                # Store all uploaded documents in a session state 
-                st.session_state.documents = get_documents_cached()
-        
-        except Exception as e:
-            st.sidebar.error(f"Error during upload: {str(e)}")
+        with st.spinner("Uploading..."):
+            try:
+                upload_response = upload_document(uploaded_file)
+    
+                    
+                if upload_response:
+                    st.sidebar.success(f"File uploaded successfully with ID {upload_response['file_id']}.")
+                    # Store all uploaded documents in a session state 
+                    st.session_state.documents = get_documents_cached()
+            
+            except Exception as e:
+                st.sidebar.error(f"Error during upload: {str(e)}")
 
     # List all uploaded documents
     st.sidebar.header("Uploaded Documents")
     if st.sidebar.button("Refresh Document List"):
-        try:
-            st.session_state.documents = get_documents_cached()
-        except Exception as e:
-            st.sidebar.error(f"Error fetching documents: {str(e)}")
+        with st.spinner("Refreshing documents..."):
+            try:
+                st.session_state.documents = get_documents_cached()
+            except Exception as e:
+                st.sidebar.error(f"Error fetching documents: {str(e)}")
 
     # Display document list 
     if "documents" in st.session_state and st.session_state.documents:
@@ -55,16 +57,17 @@ def display_sidebar():
         
         if st.sidebar.button("Delete"):
             if selected_file_id:
-                try:
-                    delete_response = delete_document(selected_file_id)
-                        
-                    if delete_response:
-                        st.sidebar.success(f"Document deleted successfully.")
-                        st.session_state.documents = get_documents_cached()
-                    else:
-                        st.sidebar.error("Failed to delete the document.")
-                        
-                except Exception as e:
-                    st.sidebar.error(f"Error during deletion: {str(e)}")
+                with st.spinner("Deleting document..."):
+                    try:
+                        delete_response = delete_document(selected_file_id)
+                            
+                        if delete_response:
+                            st.sidebar.success(f"Document deleted successfully.")
+                            st.session_state.documents = get_documents_cached()
+                        else:
+                            st.sidebar.error("Failed to delete the document.")
+                            
+                    except Exception as e:
+                        st.sidebar.error(f"Error during deletion: {str(e)}")
             else:
                 st.sidebar.info("No documents uploaded yet. Please upload a document.")
