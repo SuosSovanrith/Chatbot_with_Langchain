@@ -43,24 +43,24 @@ This project is a multi-user chatbot that allows users to upload documents (PDF,
 ### Installation
 
 1. Clone the repository:  
-    git clone https://github.com/SuosSovanrith/Chatbot_with_Langchain.git
-    cd Chatbot_with_Langchain
+    `git clone https://github.com/SuosSovanrith/Chatbot_with_Langchain.git`
+    `cd Chatbot_with_Langchain`
 
 2. Install necessary packages using pip:
-    pip install -r requirements.txt
+    `pip install -r requirements.txt`
 
 3. vCreate a .env file in the project root using the sample:
-    cp .env.example .env
+    `cp .env.example .env`
 
 4. Fill in the .env file with your API key and other configurations:
-    OPENAI_API_KEY=your_openai_api_key
+    `OPENAI_API_KEY=your_openai_api_key`
 
 5. Start the backend server in termal:
-    cd api
-    uvicorn main:fapi --reload
+    `cd api`
+    `uvicorn main:fapi --reload`
 
 **Note:** fapi is the name of the FastApi varable declared in main.py. It is usually named app, but that depend on you
 
 6. Launch the Streamlit frontend in terminal:
-    cd app
-    streamlit run steamlit_app.py
+    `cd app`
+    `streamlit run steamlit_app.py`
