@@ -59,7 +59,7 @@ This project is a multi-user chatbot that allows users to upload documents (PDF,
     cd api
     uvicorn main:fapi --reload
 
-** Note:** fapi is the name of the FastApi varable declared in main.py. It is usually named app, but that depend on you
+**Note:** fapi is the name of the FastApi varable declared in main.py. It is usually named app, but that depend on you
 
 6. Launch the Streamlit frontend in terminal:
     cd app
