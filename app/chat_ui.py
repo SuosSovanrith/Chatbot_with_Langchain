@@ -14,9 +14,9 @@ def display_chat_ui():
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             if message["role"] == "user":
-                st.markdown(f">>You: {message['content']}")
+                st.markdown(message['content'])
             else:
-                st.markdown(f">>Chatbot: {message['content']}")
+                st.markdown(message['content'])
 
     # Add some space to separate the chat history from new input
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -25,7 +25,7 @@ def display_chat_ui():
     if prompt := st.chat_input("Message chatbot..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
-            st.markdown(f">>You: {prompt}")
+            st.markdown(prompt)
 
         # Get API response
         with st.spinner("Generating response..."):
@@ -37,7 +37,7 @@ def display_chat_ui():
                     st.session_state.messages.append({"role": "assistant", "content": response['answer']})
 
                     with st.chat_message("assistant"):
-                        st.markdown(f">>Chatbot: {response['answer']}")
+                        st.markdown(response['answer'])
 
                     with st.expander("Details"):
                         st.subheader("Generated Answer")
