@@ -7,12 +7,13 @@ from datetime import datetime
 class ModelName(str, Enum):
     GPT4_O = "gpt-4o"
     GPT4_O_MINI = "gpt-4o-mini"
+    GPT3_5_TURBO = "gpt-3.5-turbo"
     
 # schema model for chat input
 class QueryInput(BaseModel):
     question: str # required
     session_id: str = Field(default=None) # optional, if not provided, a new session_id will be created
-    model: ModelName = Field(default=ModelName.GPT4_O_MINI) # optional ai model, default to GPT4_O_MINI
+    model: ModelName = Field(default=ModelName.GPT3_5_TURBO) # optional ai model, default to GPT3_5_TURBO because i am using free tier
 
 # schema model for chat response
 class QueryResponse(BaseModel):

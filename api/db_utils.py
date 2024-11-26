@@ -1,11 +1,13 @@
 # use sqlite database for storing documents and chat history
 import sqlite3
 from sqlite3 import Error
-from datetime import datetime
+import logging
 
 # Set database name
 DB_NAME = "langchainchatbot.db"
 
+# Setting up for logging our app's info
+logging.basicConfig(filename='app.log', level=logging.INFO)
 
 # Connection to database
 def get_db_connection():
@@ -13,8 +15,10 @@ def get_db_connection():
         conn = sqlite3.connect(DB_NAME)
         conn.row_factory = sqlite3.Row
         return conn
+    
     except Error as e:
-        print(f"Error connecting to database: {e}")
+        # print(f"Error connecting to database: {e}")
+        logging.error(f"Error connecting to database: {e}")
         return None
 
 
@@ -32,8 +36,11 @@ def create_application_logs():
                              model TEXT,
                              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
             conn.commit()
+            
     except Error as e:
-        print(f"Error creating application_logs table: {e}")
+        # print(f"Error creating application_logs table: {e}")
+        logging.error(f"Error creating application_logs table: {e}")
+        
     finally:
         if conn:
             conn.close()
@@ -50,8 +57,11 @@ def create_document_store():
                              filename TEXT,
                              upload_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
             conn.commit()
+            
     except Error as e:
-        print(f"Error creating document_store table: {e}")
+        # print(f"Error creating document_store table: {e}")
+        logging.error(f"Error creating document_store table: {e}")
+        
     finally:
         if conn:
             conn.close()
@@ -66,8 +76,11 @@ def insert_application_logs(session_id, user_query, gpt_response, model):
             conn.execute('INSERT INTO application_logs (session_id, user_query, gpt_response, model) VALUES (?, ?, ?, ?)',
                          (session_id, user_query, gpt_response, model))
             conn.commit()
+            
     except Error as e:
-        print(f"Error inserting application logs: {e}")
+        # print(f"Error inserting application logs: {e}")
+        logging.error(f"Error inserting application logs: {e}")
+        
     finally:
         if conn:
             conn.close()
@@ -88,11 +101,15 @@ def get_chat_history(session_id):
                     {"role": "human", "content": row['user_query']},
                     {"role": "ai", "content": row['gpt_response']}
                 ])
+                
     except Error as e:
-        print(f"Error retrieving chat history: {e}")
+        # print(f"Error retrieving chat history: {e}")
+        logging.error(f"Error retrieving chat history: {e}")
+        
     finally:
         if conn:
             conn.close()
+            
     return messages
 
 
@@ -107,8 +124,11 @@ def insert_document_record(filename):
             cursor.execute('INSERT INTO document_store (filename) VALUES (?)', (filename,))
             file_id = cursor.lastrowid
             conn.commit()
+            
     except Error as e:
-        print(f"Error inserting document record: {e}")
+        # print(f"Error inserting document record: {e}")
+        logging.error(f"Error inserting document record: {e}")
+        
     finally:
         if conn:
             conn.close()
@@ -124,11 +144,15 @@ def delete_document_record(file_id):
         if conn:
             conn.execute('DELETE FROM document_store WHERE id = ?', (file_id,))
             conn.commit()
+            
     except Error as e:
-        print(f"Error deleting document record: {e}")
+        # print(f"Error deleting document record: {e}")
+        logging.error(f"Error deleting document record: {e}")
+        
     finally:
         if conn:
             conn.close()
+            
     return True
 
 
@@ -142,11 +166,15 @@ def get_all_documents():
             cursor = conn.cursor()
             cursor.execute('SELECT id, filename, upload_timestamp FROM document_store ORDER BY upload_timestamp DESC')
             documents = cursor.fetchall()
+            
     except Error as e:
-        print(f"Error retrieving documents: {e}")
+        # print(f"Error retrieving documents: {e}")
+        logging.error(f"Error retrieving documents: {e}")
+        
     finally:
         if conn:
             conn.close()
+            
     return [dict(doc) for doc in documents]
 
 

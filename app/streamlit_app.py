@@ -2,7 +2,7 @@ import streamlit as st
 from sidebar import display_sidebar
 from chat_ui import display_chat_ui
 
-st.title("Chatbot with Langchain")
+st.markdown("<h1 style='text-align: center;'>Chatbot with Langchain</h1>", unsafe_allow_html=True)
 
 # Initialize session state variables
 if "messages" not in st.session_state:

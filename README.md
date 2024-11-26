@@ -51,20 +51,20 @@ This project is a multi-user chatbot that allows users to upload documents (PDF,
     ```
     pip install -r requirements.txt
 
-3. vCreate a .env file in the project root using the sample:
+3. Create a .env file in the project root using the sample:
     ```
     cp .env.example .env
 
-4. Fill in the .env file with your API key and other configurations:
+4. Fill in the .env file with your API key:
     ```
     OPENAI_API_KEY=your_openai_api_key
 
-5. Start the backend server in termal:
+5. Start the backend server in terminal:
     ```
     cd api
     uvicorn main:fapi --reload
 
-**Note:** fapi is the name of the FastApi varable declared in main.py. It is usually named app, but that depend on you
+**Note:** fapi is the name of the FastApi varable declared in main.py. It is usually named app, but that depends on you
 
 6. Launch the Streamlit frontend in terminal:
     ```
