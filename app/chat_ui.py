@@ -1,6 +1,16 @@
 import streamlit as st
 from api_utils import get_api_response
 
+
+def display_chat_history():
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            if message["role"] == "user":
+                st.markdown(message['content'])
+            else:
+                st.markdown(message['content'])
+                
+                
 def display_chat_ui():
     # Initialize session state if it doesn't exist
     if "messages" not in st.session_state:
@@ -11,12 +21,7 @@ def display_chat_ui():
         st.session_state.model = "gpt-3.5-turbo"  # Default model, could be adjustable in the UI
         
     # Display chat history
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            if message["role"] == "user":
-                st.markdown(message['content'])
-            else:
-                st.markdown(message['content'])
+    display_chat_history()
 
     # Add some space to separate the chat history from new input
     st.markdown("<hr>", unsafe_allow_html=True)
