@@ -13,8 +13,7 @@ def refresh_document_list():
 
 
 def display_sidebar():
-    with st.spinner("Refreshing document..."):
-        refresh_document_list()
+    refresh_document_list()
     
     # Model selection
     model_options = ["gpt-3.5-turbo", "gpt-4o", "gpt-4o-mini"]
@@ -52,7 +51,8 @@ def display_sidebar():
         
         # refresh button
         if st.sidebar.button("Refresh"):
-            refresh_document_list()
+            with st.spinner("Refreshing document..."):
+                refresh_document_list()
             
         # Delete functionality
         # a dictionary mapping IDs to filenames
